@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>母亲节快乐</title>
+<style>
+body{
+  margin:0;
+  background:#fff5f7;
+  overflow:hidden;
+}
+#txt{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  font-family:"微软雅黑";
+  color:#d81b60;
+  z-index:9;
+}
+h1{font-size:36px;margin:10px 0;}
+h2{font-size:28px;margin:8px 0;}
+</style>
+</head>
+<body>
+<div id="txt">
+  <h1>妈妈您辛苦了</h1>
+  <h2>身体健康</h2>
+  <h2>万事如意</h2>
+  <h1>母亲节快乐！</h1>
+</div>
+<canvas id="c"></canvas>
+
+<script>
+const c = document.getElementById("c");
+const ctx = c.getContext("2d");
+c.width = window.innerWidth;
+c.height = window.innerHeight;
+
+let hearts = [];
+for(let i=0;i<30;i++){
+  hearts.push({
+    x:Math.random()*c.width,
+    y:Math.random()*c.height - c.height,
+    r:Math.random()*15+10,
+    speed:Math.random()*2+1
+  });
+}
+
+function drawHeart(x,y,size){
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+  ctx.bezierCurveTo(x-size/2,y-size/2,x-size,y+size/3,x,y+size);
+  ctx.bezierCurveTo(x+size,y+size/3,x+size/2,y-size/2,x,y);
+  ctx.fillStyle="#ff69b4";
+  ctx.fill();
+}
+
+function loop(){
+  ctx.clearRect(0,0,c.width,c.height);
+  for(let h of hearts){
+    drawHeart(h.x,h.y,h.r);
+    h.y -= h.speed;
+    if(h.y < -20) {
+      h.y = c.height + 20;
+      h.x = Math.random()*c.width;
+    }
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>
